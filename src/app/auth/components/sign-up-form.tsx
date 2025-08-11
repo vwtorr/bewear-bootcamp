@@ -22,25 +22,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const formSchema = z.object({
-  name: z.string("Nome inválido").trim().min(1, "Nome é obrigatório!"),
-  email: z.string().email("E-mail inválido!"),
-  password: z.string("Senha inválida!").min(8, "Senha inválida!"),
-  passwordConfirmation: z.string("Senha inválida!").min(8, "Senha inválida!"),
-}).refine((data) => {
-  return data.password === data.passwordConfirmation;
-}, {
-error: "As senhas não coincidem!",
-path: ["passwordConfirmation"],
-}); 
+const formSchema = z
+  .object({
+    name: z.string("Nome inválido").trim().min(1, "Nome é obrigatório!"),
+    email: z.string().email("E-mail inválido!"),
+    password: z.string("Senha inválida!").min(8, "Senha inválida!"),
+    passwordConfirmation: z.string("Senha inválida!").min(8, "Senha inválida!"),
+  })
+  .refine(
+    (data) => {
+      return data.password === data.passwordConfirmation;
+    },
+    {
+      error: "As senhas não coincidem!",
+      path: ["passwordConfirmation"],
+    },
+  );
 
 type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
+  const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { 
+    defaultValues: {
       name: "",
       email: "",
       password: "",
@@ -48,9 +57,27 @@ const SignUpForm = () => {
     },
   });
 
-  function onSubmit(values: FormValues) {
-    console.log("FORMULÁRIO VÁLIDO E ENVIADO!");
-    console.log(values);
+  async function onSubmit(values: FormValues) {
+    await authClient.signUp.email({
+      name: values.name, // required
+      email: values.email, // required
+      password: values.password, // required
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/");
+          toast.success("Conta criada com sucesso!");
+        },
+        onError: (error) => {
+          if (error.error.code === "USER_ALREADY_EXISTS") {
+            toast.error("E-mail já cadastrado!");
+          }
+          form.setError("email", {
+            message: "E-mail já cadastrado!",
+          });
+          toast.error(error.error.message);
+        },
+      },
+    });
   }
 
   return (
@@ -63,8 +90,7 @@ const SignUpForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Form {...form}>
           <CardContent className="grid gap-6">
-
-          <FormField
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -77,7 +103,7 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="email"
