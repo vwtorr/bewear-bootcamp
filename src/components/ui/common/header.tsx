@@ -41,6 +41,7 @@ export const Header = () => {
                       <Avatar>
                         <AvatarImage
                           src={session?.user?.image as string | undefined}
+                          className="h-10 w-10 rounded-full object-cover"
                         />
                       </Avatar>
 

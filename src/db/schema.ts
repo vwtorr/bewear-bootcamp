@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgTable, uuid, text, timestamp, integer, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  uuid,
+  text,
+  timestamp,
+  integer,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
@@ -48,7 +55,6 @@ export const accountTable = pgTable("account", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
-
 export const categoryTable = pgTable("category", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text().notNull(),
@@ -58,13 +64,14 @@ export const categoryTable = pgTable("category", {
 });
 
 export const categoryRelations = relations(categoryTable, ({ many }) => ({
-    products: many(productTable),
-  }));
+  products: many(productTable),
+}));
 
 export const productTable = pgTable("product", {
   id: uuid("id").defaultRandom().primaryKey(),
-  categoryId: uuid("category_id")
-    .references(() => categoryTable.id, { onDelete: "set null" }),
+  categoryId: uuid("category_id").references(() => categoryTable.id, {
+    onDelete: "set null",
+  }),
   name: text().notNull(),
   slug: text().notNull().unique(),
   description: text("description").notNull(),
@@ -73,12 +80,12 @@ export const productTable = pgTable("product", {
 });
 
 export const productRelations = relations(productTable, ({ one, many }) => ({
-    category: one(categoryTable, {
-      fields: [productTable.categoryId],
-      references: [categoryTable.id],
-    }),
-    variants: many(productVariantTable),
-  }));  
+  category: one(categoryTable, {
+    fields: [productTable.categoryId],
+    references: [categoryTable.id],
+  }),
+  variants: many(productVariantTable),
+}));
 
 export const productVariantTable = pgTable("product_variant", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -93,10 +100,25 @@ export const productVariantTable = pgTable("product_variant", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-
-export const productVariantRelations = relations(productVariantTable, ({ one }) => ({
+export const productVariantRelations = relations(
+  productVariantTable,
+  ({ one }) => ({
     product: one(productTable, {
       fields: [productVariantTable.productId],
       references: [productTable.id],
     }),
-  }));  
+  }),
+);
+
+export const verificationTable = pgTable("verification", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").$defaultFn(
+    () => /* @__PURE__ */ new Date(),
+  ),
+  updatedAt: timestamp("updated_at").$defaultFn(
+    () => /* @__PURE__ */ new Date(),
+  ),
+});

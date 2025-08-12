@@ -4,20 +4,29 @@ import { db } from "@/db";
 import * as schema from "@/db/schema";
 
 export const auth = betterAuth({
-    emailAndPassword: {
-      enabled: true,
-    },  
+  emailAndPassword: {
+    enabled: true,
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
   database: drizzleAdapter(db, {
-    provider: "pg", // or "pg" or "mysql"
+    provider: "pg", // ou "mysql", conforme seu banco
     schema,
   }),
-  user:{
+  user: {
     modelName: "userTable",
   },
   session: {
-    modelName: "sessionTable", 
+    modelName: "sessionTable",
   },
-    account: {
+  account: {
     modelName: "accountTable",
-    },
+  },
+  verification: {
+    modelName: "verificationTable",
+  },
 });
