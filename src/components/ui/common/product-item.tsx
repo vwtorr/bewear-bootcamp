@@ -16,7 +16,10 @@ const ProductItem = ({ product, textConteinerClassName }: ProductItemProps) => {
   const firstVariant = product.variants[0];
 
   return (
-    <Link href="/" className="flex w-64 flex-shrink-0 flex-col gap-4">
+    <Link
+      href={`/product-variant/${firstVariant.slug}`}
+      className="flex w-64 flex-shrink-0 flex-col gap-4"
+    >
       <Image
         src={firstVariant.imageUrl}
         alt={firstVariant.name}
