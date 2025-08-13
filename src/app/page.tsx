@@ -33,9 +33,9 @@ const Home = async () => {
           alt="Leve uma vida com estilo"
           height={0}
           width={0}
-          sizes="100vm"
-          className="h-auto w-full rounded-3xl"
-        ></Image>
+          sizes="100vw"
+          className="mx-auto h-auto w-full max-w-[1400px] rounded-3xl"
+        />
 
         <PartnerBrands />
 
@@ -51,7 +51,7 @@ const Home = async () => {
           height={0}
           width={0}
           sizes="100vm"
-          className="rounded-4xl h-auto w-full"
+          className="mx-auto h-auto w-full max-w-6xl rounded-3xl"
         ></Image>
 
         <ProductList products={newlyCreatedProducts} title="Novidades" />

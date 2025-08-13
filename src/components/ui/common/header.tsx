@@ -13,6 +13,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import Link from "next/link";
+import Cart from "./cart";
 
 export const Header = () => {
   const { data: session } = authClient.useSession();
@@ -22,7 +23,7 @@ export const Header = () => {
         <Image src="/Logo.svg" alt="BEWEAR" width={100} height={26.14} />
       </Link>
 
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
@@ -33,7 +34,7 @@ export const Header = () => {
             <SheetHeader>
               <SheetTitle>Menu</SheetTitle>
             </SheetHeader>
-            <div className="px-5">
+            <div className="px-1">
               {session?.user ? (
                 <>
                   <div className="flex justify-between space-y-6">
@@ -74,6 +75,7 @@ export const Header = () => {
             </div>
           </SheetContent>
         </Sheet>
+        <Cart></Cart>
       </div>
     </header>
   );
