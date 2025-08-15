@@ -15,12 +15,10 @@ import { formatCentsToBRL } from "@/helpers/money";
 import CartItem from "./cart-item";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Link from "next/link";
+import useCart from "@/hooks/queries/use-cart";
 
 const Cart = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["cart"],
-    queryFn: () => getCart(),
-  });
+  const { data, isLoading, isError } = useCart();
 
   if (isLoading || isError) {
     return (
