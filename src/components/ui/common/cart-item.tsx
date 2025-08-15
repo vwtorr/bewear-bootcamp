@@ -10,6 +10,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { removeProductFromCart } from "@/actions/remove-cart-product";
+import { decreaseProductQuantity } from "@/actions/decrease-cart-product-quantity";
 import { toast } from "sonner";
 
 interface CartItemProps {
@@ -31,24 +32,44 @@ const CartItem = ({
 }: CartItemProps) => {
   const queryClient = useQueryClient();
 
-const removeProductFromCartMutation = useMutation({
-  mutationKey: ["remove-cart-product"],
- mutationFn: () => removeProductFromCart({ cartItemId: id }),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["cart"] });
-  },
-});
-
-const handleDeleteClick = () => {
-  removeProductFromCartMutation.mutate(undefined, {
+  const removeProductFromCartMutation = useMutation({
+    mutationKey: ["remove-cart-product"],
+    mutationFn: () => removeProductFromCart({ cartItemId: id }),
     onSuccess: () => {
-      toast.success("Produto removido do carrinho.");
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  const decreaseCartProductQuantityMutation = useMutation({
+    mutationKey: ["decrease-cart-product-quantity"],
+    mutationFn: () => decreaseProductQuantity({ cartItemId: id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  const handleDeleteClick = () => {
+    removeProductFromCartMutation.mutate(undefined, {
+      onSuccess: () => {
+        toast.success("Produto removido do carrinho.");
+      },
+      onError: () => {
+        toast.error("Erro ao remover produto do carrinho.");
+      },
+    });
+  };
+
+  const handleDecreaseQuantityClick = () => {
+  decreaseCartProductQuantityMutation.mutate(undefined, {
+    onSuccess: () => {
+      toast.success("Quantidade de produto diminuída.");
     },
     onError: () => {
-      toast.error("Erro ao remover produto do carrinho.");
+      toast.error("Erro ao diminuir a quantidade do produto.");
     },
   });
 };
+
 
   return (
     <div
@@ -72,9 +93,14 @@ const handleDeleteClick = () => {
         </p>
 
         <div className="flex w-[100px] items-center justify-between rounded-lg border p-1">
-          <Button className="h-4 w-4" variant="ghost" onClick={() => {}}>
+          <Button
+            className="h-4 w-4"
+            variant="ghost"
+            onClick={handleDecreaseQuantityClick}
+          >
             <MinusIcon />
           </Button>
+
           <p className="text-xs">{quantity}</p>
           <Button className="h-4 w-4" variant="ghost" onClick={() => {}}>
             <PlusIcon />
