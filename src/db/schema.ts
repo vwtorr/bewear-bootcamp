@@ -77,15 +77,14 @@ export const categoryRelations = relations(categoryTable, ({ many }) => ({
 }));
 
 export const productTable = pgTable("product", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  categoryId: uuid("category_id").references(() => categoryTable.id, {
-    onDelete: "set null",
-  }),
+  id: uuid().primaryKey().defaultRandom(),
+  categoryId: uuid("category_id")
+    .notNull()
+    .references(() => categoryTable.id, { onDelete: "set null" }),
   name: text().notNull(),
   slug: text().notNull().unique(),
-  description: text("description").notNull(),
+  description: text().notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const productRelations = relations(productTable, ({ one, many }) => ({
@@ -178,7 +177,7 @@ export const cartTable = pgTable("cart", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const cartRelations = relations(cartTable, ({ one }) => ({
+export const cartRelations = relations(cartTable, ({ one, many }) => ({
   user: one(userTable, {
     fields: [cartTable.userId],
     references: [userTable.id],
@@ -187,7 +186,9 @@ export const cartRelations = relations(cartTable, ({ one }) => ({
     fields: [cartTable.shippingAddressId],
     references: [shippingAddressTable.id],
   }),
+  items: many(cartItemTable),
 }));
+
 
 export const cartItemTable = pgTable("cart_item", {
   id: uuid().primaryKey().defaultRandom(), 

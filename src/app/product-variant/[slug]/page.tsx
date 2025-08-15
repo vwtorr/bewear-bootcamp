@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import ProductList from "@/components/ui/common/product-list";
 import Footer from "@/components/ui/common/footer";
 import VariantSelector from "./components/variants-selector";
-import QuantitySelector from "./components/quantity-selector";
+import ProductActions from "./components/product-actions";
 
 interface ProductVariantPageProps {
   params: Promise<{ slug: string }>;
@@ -17,15 +17,15 @@ interface ProductVariantPageProps {
 
 const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
   const { slug } = await params;
-  
+
   const productVariant = await db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
-    with: { 
+    with: {
       product: {
         with: {
           variants: true,
-        }
-      } 
+        },
+      },
     },
   });
 
@@ -33,21 +33,21 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
     return notFound();
   }
 
-  const likelyProducts = productVariant.product.categoryId
-    ? await db.query.productTable.findMany({
-        where: eq(productTable.categoryId, productVariant.product.categoryId),
-        with: { variants: true },
-      })
-    : [];
+  const likelyProducts = await db.query.productTable.findMany({
+    where: eq(productTable.categoryId, productVariant.product.categoryId),
+    with: {
+      variants: true,
+    },
+  });
 
   return (
     <>
       <Header />
-      
+
       <div className="min-h-screen">
         {/* Mobile Layout */}
         <div className="flex flex-col space-y-6 lg:hidden">
-          <div className="relative h-[300px] w-full rounded-3xl overflow-hidden">
+          <div className="relative h-[300px] w-full overflow-hidden rounded-3xl">
             <Image
               src={productVariant.imageUrl}
               alt={productVariant.name}
@@ -57,10 +57,13 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
               className="h-full w-full object-cover"
             />
           </div>
-          
-          <div className="px-5 space-y-4">
-            <VariantSelector variants={productVariant.product.variants} />
-            
+
+          <div className="space-y-4 px-5">
+            <VariantSelector
+              selectedVariantSlug={productVariant.slug}
+              variants={productVariant.product.variants}
+            />
+
             <div>
               <h1 className="text-lg font-semibold">
                 {productVariant.product.name}
@@ -68,22 +71,17 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
               <h3 className="text-muted-foreground text-sm">
                 {productVariant.name}
               </h3>
-              <h3 className="text-lg font-semibold mt-2">
+              <h3 className="mt-2 text-lg font-semibold">
                 {formatCentsToBRL(productVariant.priceInCents)}
               </h3>
             </div>
-            
-            <QuantitySelector />
-            
+
             <div className="flex flex-col space-y-4">
-              <Button className="rounded-full" size="lg" variant="outline">
-                Adicionar à sacola
-              </Button>
               <Button className="rounded-full" size="lg">
                 Comprar agora
               </Button>
             </div>
-            
+
             <div>
               <p className="text-sm text-gray-600">
                 {productVariant.product.description}
@@ -93,28 +91,28 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden lg:flex lg:max-w-7xl lg:mx-auto lg:px-8 lg:py-8 lg:gap-12">
+        <div className="hidden lg:mx-auto lg:flex lg:max-w-7xl lg:gap-12 lg:px-8 lg:py-8">
           {/* Image Section */}
-          <div className="flex-1 max-w-2xl">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-gray-100">
+          <div className="max-w-2xl flex-1">
+            <div className="aspect-square overflow-hidden rounded-3xl bg-gray-100">
               <Image
                 src={productVariant.imageUrl}
                 alt={productVariant.name}
                 sizes="(max-width: 768px) 100vw, 50vw"
                 width={600}
                 height={600}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
           </div>
 
           {/* Product Info Section */}
-          <div className="flex-1 max-w-xl space-y-8">
+          <div className="max-w-xl flex-1 space-y-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">
+              <h1 className="mb-2 text-3xl font-bold">
                 {productVariant.product.name}
               </h1>
-              <h2 className="text-muted-foreground text-lg mb-4">
+              <h2 className="text-muted-foreground mb-4 text-lg">
                 {productVariant.name}
               </h2>
               <div className="text-2xl font-bold">
@@ -122,22 +120,16 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
               </div>
             </div>
 
-            <VariantSelector variants={productVariant.product.variants} />
-            
-            <QuantitySelector />
-            
-            <div className="space-y-4">
-              <Button className="w-full rounded-full" size="lg" variant="outline">
-                Adicionar à sacola
-              </Button>
-              <Button className="w-full rounded-full" size="lg">
-                Comprar agora
-              </Button>
-            </div>
-            
+            <VariantSelector
+              selectedVariantSlug={productVariant.slug}
+              variants={productVariant.product.variants}
+            />
+
+            <ProductActions productVariantId={productVariant.id} />
+
             <div className="border-t pt-6">
-              <h3 className="font-semibold mb-3">Descrição</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="mb-3 font-semibold">Descrição</h3>
+              <p className="leading-relaxed text-gray-600">
                 {productVariant.product.description}
               </p>
             </div>
@@ -145,10 +137,10 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
         </div>
 
         {/* Related Products - Centralized and Single */}
-        <div className="mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
           <ProductList title="Talvez você goste" products={likelyProducts} />
         </div>
-        
+
         <Footer />
       </div>
     </>
