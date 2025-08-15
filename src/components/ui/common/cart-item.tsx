@@ -12,6 +12,7 @@ import {
 import { removeProductFromCart } from "@/actions/remove-cart-product";
 import { decreaseProductQuantity } from "@/actions/decrease-cart-product-quantity";
 import { toast } from "sonner";
+import { addProductToCart } from "@/actions/add-cart-product";
 
 interface CartItemProps {
   id: string;
@@ -20,6 +21,7 @@ interface CartItemProps {
   productVariantImageUrl: string;
   productVariantPriceInCents: number;
   quantity: number;
+  productVariantId: string;
 }
 
 const CartItem = ({
@@ -29,12 +31,21 @@ const CartItem = ({
   productVariantImageUrl,
   productVariantPriceInCents,
   quantity,
+    productVariantId,
 }: CartItemProps) => {
   const queryClient = useQueryClient();
 
   const removeProductFromCartMutation = useMutation({
     mutationKey: ["remove-cart-product"],
     mutationFn: () => removeProductFromCart({ cartItemId: id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  const increaseCartProductQuantityMutation = useMutation({
+    mutationKey: ["increase-cart-product-quantity"],
+    mutationFn: () => addProductToCart({ productVariantId, quantity: 1 }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
@@ -58,6 +69,17 @@ const CartItem = ({
       },
     });
   };
+
+   const handleIncluseQuantityClick = () => {
+  increaseCartProductQuantityMutation.mutate(undefined, {
+    onSuccess: () => {
+      toast.success("Quantidade de produto adicionada.");
+    },
+    onError: () => {
+      toast.error("Erro ao adicionar quantidade no produto.");
+    },
+  });
+};
 
   const handleDecreaseQuantityClick = () => {
   decreaseCartProductQuantityMutation.mutate(undefined, {
@@ -102,7 +124,7 @@ const CartItem = ({
           </Button>
 
           <p className="text-xs">{quantity}</p>
-          <Button className="h-4 w-4" variant="ghost" onClick={() => {}}>
+          <Button className="h-4 w-4" variant="ghost" onClick={handleIncluseQuantityClick}>
             <PlusIcon />
           </Button>
         </div>

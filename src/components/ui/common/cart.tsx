@@ -52,6 +52,7 @@ const Cart = () => {
                         <li key={item.id}>
                           <CartItem
                             id={item.id}
+                            productVariantId={item.productVariantId}
                             productName={item.productVariant.product.name}
                             productVariantName={item.productVariant.name}
                             productVariantImageUrl={
