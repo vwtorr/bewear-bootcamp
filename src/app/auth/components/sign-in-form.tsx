@@ -78,19 +78,20 @@ const SignInForm = () => {
   }
 
   const HandleSignInWithGoogle = async () => {
-    await authClient.signIn.social ({
+    await authClient.signIn.social({
       provider: "google",
-    })
-  }
+    });
+  };
 
   return (
-    <Card className="w-full">
+
+    <Card>
       <CardHeader>
         <CardTitle>Entrar</CardTitle>
         <CardDescription>Faça login para continuar.</CardDescription>
       </CardHeader>
 
-      {/* Coloque o onSubmit no form real */}
+ 
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Form {...form}>
           <CardContent className="grid gap-6">
@@ -125,9 +126,40 @@ const SignInForm = () => {
               )}
             />
           </CardContent>
-          <CardFooter className="flex flex-col p-5 gap-2">
-            <Button type="submit" className="w-full">Entrar</Button>
-            <Button onClick={HandleSignInWithGoogle} type="button" className="w-full">Entrar com Google</Button>
+          <CardFooter className="flex flex-col gap-2 p-5">
+            <Button type="submit" className="w-full">
+              Entrar
+            </Button>
+            <Button
+              onClick={HandleSignInWithGoogle}
+              type="button"
+              className="border-1 flex w-full items-center justify-center gap-2 border-solid bg-white font-normal text-slate-500 hover:bg-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 48 48"
+              >
+                <path
+                  fill="#4285F4"
+                  d="M24 9.5c3.94 0 6.64 1.71 8.16 3.14l5.96-5.96C34.29 3.62 29.51 1.5 24 1.5 14.7 1.5 6.76 7.97 3.66 16.44l7.34 5.7C12.42 15.79 17.7 9.5 24 9.5z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M46.15 24.55c0-1.61-.15-3.14-.43-4.55H24v9.06h12.55c-.54 2.89-2.18 5.34-4.65 7l7.34 5.7c4.29-3.95 6.91-9.77 6.91-17.21z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M11 28.09c-.48-1.42-.75-2.94-.75-4.59s.27-3.17.75-4.59l-7.34-5.7C1.35 16.69 0 20.22 0 23.5s1.35 6.81 3.66 9.29L11 28.09z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M24 47c5.51 0 10.15-1.82 13.53-4.95l-7.34-5.7c-2.03 1.37-4.63 2.17-7.56 2.17-6.3 0-11.58-6.29-12.99-12.64l-7.34 5.7C6.76 40.03 14.7 47 24 47z"
+                />
+              </svg>
+              Entrar com Google
+            </Button>
           </CardFooter>
         </Form>
       </form>

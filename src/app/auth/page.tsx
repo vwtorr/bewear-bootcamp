@@ -1,42 +1,20 @@
-import { AppWindowIcon, CodeIcon } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SignInForm from "./components/sign-in-form";
-import SignUpForm from "./components/sign-up-form";
+import AuthTabs from "./components/auth-tabs";
 import { Header } from "@/components/ui/common/header";
+import Footer from "@/components/ui/common/footer";
 
-const Auth = async () => {
+const AuthPage = () => {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="flex w-full flex-col gap-6 p-5">
-        <Tabs defaultValue="sign-in">
-          <TabsList>
-            <TabsTrigger value="sign-in">Entrar</TabsTrigger>
-            <TabsTrigger value="sign-up">Criar conta</TabsTrigger>
-          </TabsList>
+      <main className="flex flex-1 flex-col items-center justify-center p-4">
+        <div className="w-full max-w-lg">
+          <AuthTabs />
+        </div>
+      </main>
 
-          <TabsContent value="sign-in" className="w-full">
-            <SignInForm />
-          </TabsContent>
-          <TabsContent value="sign-up" className="w-full">
-            <SignUpForm />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 
-export default Auth;
+export default AuthPage;
