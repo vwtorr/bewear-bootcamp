@@ -5,7 +5,6 @@ import ProductList from "@/components/ui/common/product-list";
 import { productTable } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import CategorySelector from "@/components/ui/common/category-selector";
-import Footer from "@/components/ui/common/footer";
 import PartnerBrands from "@/components/ui/partner-brands";
 
 const Home = async () => {
