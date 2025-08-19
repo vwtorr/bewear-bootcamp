@@ -134,7 +134,6 @@ const Addresses = ({
         await updateCartShippingAddressMutation.mutateAsync({
           shippingAddressId: newAddress.id,
         });
-        toast.success("Endereço vinculado ao carrinho!");
       }
     } catch (error) {
       toast.error("Erro ao criar/atualizar endereço. Tente novamente.");
@@ -210,7 +209,7 @@ const Addresses = ({
 
               <Card>
                 <CardContent>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-start space-x-2">
                     <RadioGroupItem value="add_new" id="add_new" />
                     <Label htmlFor="add_new">Adicionar novo endereço</Label>
                   </div>
@@ -437,7 +436,15 @@ const Addresses = ({
         </CardContent>
       </Card>
 
-      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+      <Dialog
+        open={isFormOpen}
+        onOpenChange={(open) => {
+          setIsFormOpen(open);
+          if (!open) {
+            setEditingAddress(null);
+          }
+        }}
+      >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Editar endereço</DialogTitle>

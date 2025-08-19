@@ -16,9 +16,14 @@ import CartItem from "./cart-item";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Link from "next/link";
 import useCart from "@/hooks/queries/use-cart";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const Cart = () => {
   const { data, isLoading, isError } = useCart();
+  const router = useRouter();
+  const [isFinishingOrder, setIsFinishingOrder] = useState(false);
 
   if (isLoading || isError) {
     return (
@@ -91,8 +96,18 @@ const Cart = () => {
                     <p>{formatCentsToBRL(data?.totalPriceInCents ?? 0)}</p>
                   </div>
                   
-                  <Button className="mt-5 rounded-full w-full" asChild>
-                    <Link href="/cart/identification">Finalizar compra</Link>
+                  <Button
+                    className="mt-5 rounded-full w-full"
+                    onClick={() => {
+                      setIsFinishingOrder(true);
+                      router.push("/cart/identification");
+                    }}
+                    disabled={isFinishingOrder}
+                  >
+                    {isFinishingOrder && (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    Finalizar compra
                   </Button>
                 </div>
               ) : null}

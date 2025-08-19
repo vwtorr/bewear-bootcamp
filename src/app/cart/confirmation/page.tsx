@@ -97,7 +97,6 @@ const ConfirmationPage = async () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
