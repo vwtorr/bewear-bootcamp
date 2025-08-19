@@ -1,6 +1,4 @@
-
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
 import Link from "next/link";
 import Image from "next/image";
 import { Header } from "@/components/ui/common/header";
@@ -22,18 +19,17 @@ const CheckoutCancelPage = () => {
       <Dialog open={true} onOpenChange={() => {}}>
         <DialogContent className="text-center">
           <Image
-            src="/illustration.svg"
+            src="/cancelled.png"
             alt="Error"
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             className="mx-auto"
           />
           <DialogTitle className="mt-4 text-2xl">Transação cancelada!</DialogTitle>
           <DialogDescription className="font-medium">
             Houve um erro ao processar seu pedido. Por favor, tente novamente.
           </DialogDescription>
-
-          <DialogFooter>
+          <DialogFooter className="flex justify-center sm:justify-center">
             <Button className="rounded-full" size="lg" asChild>
               <Link href="/cart">
                 Voltar para o carrinho
@@ -56,4 +52,4 @@ const CheckoutCancelPage = () => {
   );
 };
 
-export default CheckoutCancelPage; 
+export default CheckoutCancelPage;
