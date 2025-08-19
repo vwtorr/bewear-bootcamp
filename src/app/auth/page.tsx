@@ -11,8 +11,6 @@ const AuthPage = () => {
           <AuthTabs />
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

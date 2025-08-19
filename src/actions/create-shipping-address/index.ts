@@ -29,8 +29,8 @@ export const createShippingAddress = async (
     .insert(shippingAddressTable)
     .values({
       userId: session.user.id,
-      recipientName: data.fullName,
-      street: data.address,
+      recipientName: data.recipientName,
+      street: data.street,
       number: data.number,
       complement: data.complement || null,
       city: data.city,
@@ -40,7 +40,7 @@ export const createShippingAddress = async (
       country: "Brasil",
       phone: data.phone,
       email: data.email,
-      cpfOrCnpj: data.cpf,
+      cpfOrCnpj: data.cpfOrCnpj,
     })
     .returning();
 

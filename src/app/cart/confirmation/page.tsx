@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +8,7 @@ import { db } from "@/db";
 import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/cart-summary";
+import ProgressIndicator from "../components/progress-indicator";
 import FinishOrderButton from "./components/finish-order-button";
 import { formatAddress } from "../helpers/addresses";
 import { Header } from "@/components/ui/common/header";
@@ -47,36 +49,55 @@ const ConfirmationPage = async () => {
   return (
     <div>
       <Header />
-      <div className="space-y-4 px-5">
-        <Card>
-          <CardHeader>
-            <CardTitle>Identificação</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
+
+      <div className="space-y-4 px-5 pb-8 pt-6 md:px-6 lg:container lg:px-16 mx-auto">
+        <ProgressIndicator />
+
+        <div className="flex flex-col items-start gap-x-12 gap-y-6 md:flex-row">
+          <div className="w-full md:max-w-[500px]">
             <Card>
-              <CardContent>
-                <p className="text-sm">{formatAddress(cart.shippingAddress)}</p>
+              <CardHeader>
+                <CardTitle>Pagamento</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <Card className="relative">
+                  <CardContent className="flex flex-col pt-4">
+                    <span className="text-sm font-semibold">Identificação</span>
+                    <p className="text-sm text-muted-foreground">
+                      {formatAddress(cart.shippingAddress)}
+                    </p>
+                  </CardContent>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="absolute right-2 top-2"
+                    asChild
+                  >
+                    <Link href="/cart/identification">Alterar</Link>
+                  </Button>
+                </Card>
+                <FinishOrderButton />
               </CardContent>
             </Card>
-            <FinishOrderButton />
-          </CardContent>
-        </Card>
-        <CartSummary
-          subtotalInCents={cartTotalInCents}
-          totalInCents={cartTotalInCents}
-          products={cart.items.map((item) => ({
-            id: item.productVariant.id,
-            name: item.productVariant.product.name,
-            variantName: item.productVariant.name,
-            quantity: item.quantity,
-            priceInCents: item.productVariant.priceInCents,
-            imageUrl: item.productVariant.imageUrl,
-          }))}
-        />
+          </div>
+
+          <div className="w-full flex-1">
+            <CartSummary
+              subtotalInCents={cartTotalInCents}
+              totalInCents={cartTotalInCents}
+              products={cart.items.map((item) => ({
+                id: item.productVariant.id,
+                name: item.productVariant.product.name,
+                variantName: item.productVariant.name,
+                quantity: item.quantity,
+                priceInCents: item.productVariant.priceInCents,
+                imageUrl: item.productVariant.imageUrl,
+              }))}
+            />
+          </div>
+        </div>
       </div>
-      <div className="mt-12">
-        <Footer />
-      </div>
+
     </div>
   );
 };
