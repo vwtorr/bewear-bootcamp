@@ -13,7 +13,7 @@ export const useFinishOrder = () => {
   return useMutation({
     mutationKey: USE_FINISH_ORDER,
     mutationFn: async () => {
-      await finishOrder();
+      return await finishOrder();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: USE_FINISH_ORDER });
