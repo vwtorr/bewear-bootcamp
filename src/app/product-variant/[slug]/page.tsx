@@ -52,9 +52,8 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
               src={productVariant.imageUrl}
               alt={productVariant.name}
               sizes="100vw"
-              width={0}
-              height={0}
-              className="h-full w-full object-cover"
+              fill
+              className="h-full w-full object-contain"
             />
           </div>
 
