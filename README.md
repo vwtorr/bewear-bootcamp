@@ -14,7 +14,6 @@ Um e-commerce moderno e responsivo para venda de roupas, tênis, mochilas e aces
 - 📍 **Múltiplos endereços de entrega** por usuário
 - 💳 **Checkout integrado com Stripe** para pagamentos seguros
 - 🚀 **Performance otimizada** com Next.js 15 e cache inteligente
-- 
 
 ## 🛠️ Tecnologias Utilizadas
 
