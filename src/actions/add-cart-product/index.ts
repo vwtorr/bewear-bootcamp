@@ -15,7 +15,7 @@ export const addProductToCart = async (data: AddProductToCartSchema) => {
     headers: await headers(),
   });
   if (!session?.user) {
-    throw new Error("Unauthorized");
+    throw new Error("Você precisa estar logado para visualizar o carrinho.");
   }
   const productVariant = await db.query.productVariantTable.findFirst({
     where: (productVariant, { eq }) =>
