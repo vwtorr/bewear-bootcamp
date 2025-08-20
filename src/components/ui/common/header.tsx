@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
+import { PackageIcon } from "lucide-react";
 import Image from "next/image";
 import {
   Sheet,
@@ -10,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../sheet";
+import { Separator } from "../separator";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import Link from "next/link";
@@ -72,6 +74,21 @@ export const Header = () => {
                   </Button>
                 </div>
               )}
+              <div className="mt-2">
+                <Separator />
+              </div>
+              <div className="mt-2">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-sm font-normal"
+                  asChild
+                >
+                  <Link href="/my-orders">
+                    <PackageIcon size={16} className="mr-2" />
+                    Meus Pedidos
+                  </Link>
+                </Button>
+              </div>
             </div>
           </SheetContent>
         </Sheet>

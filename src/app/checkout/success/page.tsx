@@ -32,21 +32,12 @@ const CheckoutSuccessPage = () => {
             Seu pedido foi efetuado com sucesso. Você pode acompanhar o status
             na seção de “Meus Pedidos”.
           </DialogDescription>
-
-          <DialogFooter>
+          <DialogFooter className="justify-center sm:justify-center">
+            <Link href="/">
             <Button className="rounded-full" size="lg">
-              Ver meus pedidos
+            Voltar para a loja
             </Button>
-            <Button
-              className="rounded-full"
-              variant="outline"
-              size="lg"
-              asChild
-            >
-              <Link href="/">
-                Voltar para a loja
-              </Link>
-            </Button>
+            </Link>
           </DialogFooter>
         </DialogContent>
       </Dialog>
