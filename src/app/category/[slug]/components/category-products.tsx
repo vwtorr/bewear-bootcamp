@@ -1,13 +1,12 @@
 import ProductItem from "@/components/ui/common/product-item";
-import { InferResult } from "drizzle-orm";
 
 interface CategoryProductsProps {
-  products: InferResult<"productTable", { with: { variants: true } }>[];
+  products: any[]; // TODO: Define a proper type for product
 }
 
 const CategoryProducts = ({ products }: CategoryProductsProps) => {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="flex flex-row gap-6 overflow-x-auto">
       {products.map((product) => (
         <ProductItem
           key={product.id}
