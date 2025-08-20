@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 import AddToCartButton from "./add-to-cart-button";
 import { addProductToCart } from "@/actions/add-cart-product";
@@ -46,9 +47,40 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
 
   return (
     <>
-      <div className="px-5">
-        <div className="space-y-4">
-          <h3 className="font-medium">Quantidade</h3>
+      {/* Mobile Layout */}
+      <Card className="rounded-t-none lg:hidden">
+        <CardContent className="space-y-5 p-5">
+          <div className="flex items-center space-x-2">
+            <div className="flex w-[100px] items-center justify-between rounded-lg border">
+              <Button size="icon" variant="ghost" onClick={handleDecrement}>
+                <MinusIcon />
+              </Button>
+              <p>{quantity}</p>
+              <Button size="icon" variant="ghost" onClick={handleIncrement}>
+                <PlusIcon />
+              </Button>
+            </div>
+            <span className="text-sm">Quantidade</span>
+          </div>
+          <AddToCartButton
+            productVariantId={productVariantId}
+            quantity={quantity}
+          />
+          <Button
+            className="w-full rounded-full"
+            size="lg"
+            onClick={() => buyNow()}
+            disabled={isBuyNowPending}
+          >
+            {isBuyNowPending && <Loader2 className="mr-2 animate-spin" />}
+            Comprar agora
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:block lg:space-y-4">
+        <div className="flex items-center space-x-2">
           <div className="flex w-[100px] items-center justify-between rounded-lg border">
             <Button size="icon" variant="ghost" onClick={handleDecrement}>
               <MinusIcon />
@@ -58,15 +90,14 @@ const ProductActions = ({ productVariantId }: ProductActionsProps) => {
               <PlusIcon />
             </Button>
           </div>
+          <span className="text-sm">Quantidade</span>
         </div>
-      </div>
-      <div className="flex flex-col space-y-4 px-5">
         <AddToCartButton
           productVariantId={productVariantId}
           quantity={quantity}
         />
         <Button
-          className="rounded-full"
+          className="w-full rounded-full"
           size="lg"
           onClick={() => buyNow()}
           disabled={isBuyNowPending}
