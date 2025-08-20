@@ -1,36 +1,225 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ E-commerce BEWEAR
 
-## Getting Started
+Um e-commerce moderno e responsivo para venda de roupas, tênis, mochilas e acessórios, construído com as mais recentes tecnologias web.
 
-First, run the development server:
+## ✨ Funcionalidades
 
+- 🛒 **Carrinho de compras completo** com persistência por usuário
+- 🔐 **Sistema de autenticação seguro** com BetterAuth
+- 📱 **Design totalmente responsivo** para mobile e desktop
+- 🎨 **Interface moderna e intuitiva** com shadcn/ui
+- 🔍 **Catálogo de produtos** com categorias e variantes (cores, preços)
+- 👤 **Gestão de perfil** com informações pessoais
+- 📦 **Sistema completo de pedidos** com status (pendente, pago, cancelado)
+- 📍 **Múltiplos endereços de entrega** por usuário
+- 💳 **Checkout integrado com Stripe** para pagamentos seguros
+- 🚀 **Performance otimizada** com Next.js 15 e cache inteligente
+
+## 🛠️ Tecnologias Utilizadas
+
+### Frontend
+- **Next.js 15** - Framework React com App Router
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Framework CSS utilitário
+- **shadcn/ui** - Biblioteca de componentes
+- **React Hook Form** - Gerenciamento de formulários
+- **Zod** - Validação de schemas
+
+### Backend & Database
+- **PostgreSQL** - Banco de dados relacional
+- **Drizzle ORM** - ORM moderno e type-safe
+- **BetterAuth** - Sistema de autenticação
+- **Server Actions** no backend para chamadas diretas do frontend ao servidor (Next.js 15)
+- **Stripe** - Integração completa de pagamentos
+
+### Ferramentas de Desenvolvimento
+- **TypeScript** - Desenvolvimento type-safe
+- **ESLint** - Linting de código
+- **Prettier** - Formatação de código
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+
+- Node.js 18+ 
+- PostgreSQL
+- npm ou yarn
+
+### Instalação
+
+1. **Clone o repositório**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/seu-usuario/ecommerce-platform.git
+cd ecommerce-platform
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Instale as dependências**
+```bash
+npm install
+# ou
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Configure as variáveis de ambiente**
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Edite o arquivo `.env.local` com suas configurações:
+```env
+# Database
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/ecommerce"
 
-## Learn More
+# Authentication
+BETTER_AUTH_SECRET="seu-secret-aqui"
+BETTER_AUTH_URL="http://localhost:3000"
 
-To learn more about Next.js, take a look at the following resources:
+# Next.js
+NEXTAUTH_URL="http://localhost:3000"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Configure o banco de dados**
+```bash
+# Execute as migrations
+npm run db:migrate
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# (Opcional) Popular com dados de exemplo
+npm run db:seed
+```
 
-## Deploy on Vercel
+5. **Execute o projeto**
+```bash
+npm run dev
+# ou
+yarn dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Acesse [http://localhost:3000](http://localhost:3000) em seu navegador.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Estrutura do Projeto
+
+```
+ecommerce-platform/
+├── app/
+│   ├── (auth)/           # Login, registro, autenticação
+│   ├── cart/             # Carrinho e checkout
+│   │   └── actions.ts    # Server Actions do carrinho
+│   ├── products/         # Catálogo de produtos
+│   │   └── [id]/         # Detalhe de produto
+│   ├── orders/           # Pedidos
+│   ├── users/            # Perfil do usuário
+│   ├── globals.css       # Estilos globais
+│   └── layout.tsx        # Layout principal
+│
+├── components/
+│   ├── ui/               # Componentes shadcn/ui
+│   ├── common/           # Header, Footer, botões
+│   └── forms/            # Componentes de formulário
+│
+├── db/
+│   ├── schema.ts         # Schemas Drizzle
+│   ├── migrations/       # Migrations
+│   └── seed.ts           # Dados de exemplo
+│
+├── lib/
+│   ├── drizzle.ts         # Configuração do ORM
+│   ├── auth.ts            # Helpers de autenticação
+│   └── stripe.ts          # Integração Stripe
+│
+├── hooks/
+│   └── useCart.ts        # Custom hook do carrinho
+│
+├── types/
+│   └── index.d.ts        # Tipagens TypeScript
+│
+├── public/
+│   └── images/           # Imagens estáticas
+│
+├── scripts/
+│   └── deploy.ts         # Scripts auxiliares
+│
+├── .env.local            # Variáveis de ambiente
+├── next.config.js        # Configuração Next.js
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## 🗃️ Schema do Banco de Dados
+
+### Entidades Principais
+
+#### 👤 **Autenticação e Usuários**
+- **`user`** - Dados dos usuários (nome, email, imagem)
+- **`session`** - Sessões ativas dos usuários  
+- **`account`** - Contas de provedores externos (OAuth)
+- **`verification`** - Tokens de verificação
+
+#### 🛍️ **Catálogo de Produtos**
+- **`category`** - Categorias dos produtos (roupas, calçados, etc.)
+- **`product`** - Produtos base (nome, descrição, categoria)
+- **`product_variant`** - Variantes dos produtos (cor, preço, imagem)
+
+#### 🛒 **Carrinho e Pedidos**
+- **`cart`** - Carrinho de compras do usuário
+- **`cart_item`** - Itens individuais do carrinho
+- **`order`** - Pedidos finalizados com status
+- **`order_item`** - Itens de cada pedido
+
+#### 📍 **Endereços**
+- **`shipping_address`** - Endereços de entrega dos usuários
+
+### Status de Pedidos
+- `pending` - Aguardando pagamento
+- `paid` - Pago e confirmado
+- `canceled` - Cancelado
+
+## 🎨 Design System
+
+O projeto utiliza uma paleta de cores moderna e componentes consistentes:
+
+- **Componentes**: Baseados no shadcn/ui
+- **Tipografia**: Sistema de escalas responsivas
+- **Cores**: Paleta neutra com acentos vibrantes
+- **Espaçamento**: Grid system baseado em Tailwind CSS
+
+## 🔧 Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+npm run dev          # Inicia servidor de desenvolvimento
+
+# Build
+npm run build        # Build para produção
+npm run start        # Inicia servidor de produção
+
+# Database
+npm run db:generate  # Gera migrations
+npm run db:migrate   # Executa migrations
+npm run db:studio    # Abre Drizzle Studio
+
+# Linting
+npm run lint         # Executa ESLint
+npm run type-check   # Verificação de tipos
+```
+
+## 📦 Deploy
+
+### Vercel (Recomendado)
+
+1. Conecte seu repositório no [Vercel](https://vercel.com)
+2. Configure as variáveis de ambiente
+3. Deploy automático a cada push
+
+### Docker
+
+```bash
+# Build da imagem
+docker build -t ecommerce-app .
+
+# Execute o container
+docker run -p 3000:3000 ecommerce-app
+```
+---
+
+⭐ Se este projeto te ajudou, deixe uma estrela no repositório!
