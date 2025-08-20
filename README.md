@@ -98,20 +98,50 @@ Acesse [http://localhost:3000](http://localhost:3000) em seu navegador.
 ## 📁 Estrutura do Projeto
 
 ```
-├── app/                    # App Router (Next.js 15)
-│   ├── (auth)/            # Rotas de autenticação
-│   ├── cart/              # Carrinho e checkout
-│   ├── products/          # Páginas de produtos
-│   └── globals.css        # Estilos globais
-├── components/            # Componentes reutilizáveis
-│   └── ui/               # Componentes shadcn/ui
-├── db/                   # Configuração do banco
+ecommerce-platform/
+├── app/
+│   ├── (auth)/           # Login, registro, autenticação
+│   ├── cart/             # Carrinho e checkout
+│   │   └── actions.ts    # Server Actions do carrinho
+│   ├── products/         # Catálogo de produtos
+│   │   └── [id]/         # Detalhe de produto
+│   ├── orders/           # Pedidos
+│   ├── users/            # Perfil do usuário
+│   ├── globals.css       # Estilos globais
+│   └── layout.tsx        # Layout principal
+│
+├── components/
+│   ├── ui/               # Componentes shadcn/ui
+│   ├── common/           # Header, Footer, botões
+│   └── forms/            # Componentes de formulário
+│
+├── db/
 │   ├── schema.ts         # Schemas Drizzle
-│   └── migrations/       # Migrations
-├── lib/                  # Utilitários e configurações
-├── hooks/                # Custom hooks
-├── types/                # Definições TypeScript
-└── public/               # Arquivos estáticos
+│   ├── migrations/       # Migrations
+│   └── seed.ts           # Dados de exemplo
+│
+├── lib/
+│   ├── drizzle.ts         # Configuração do ORM
+│   ├── auth.ts            # Helpers de autenticação
+│   └── stripe.ts          # Integração Stripe
+│
+├── hooks/
+│   └── useCart.ts        # Custom hook do carrinho
+│
+├── types/
+│   └── index.d.ts        # Tipagens TypeScript
+│
+├── public/
+│   └── images/           # Imagens estáticas
+│
+├── scripts/
+│   └── deploy.ts         # Scripts auxiliares
+│
+├── .env.local            # Variáveis de ambiente
+├── next.config.js        # Configuração Next.js
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
 ## 🗃️ Schema do Banco de Dados
