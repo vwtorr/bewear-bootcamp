@@ -29,6 +29,7 @@ Um e-commerce moderno e responsivo para venda de roupas, tênis, mochilas e aces
 - **PostgreSQL** - Banco de dados relacional
 - **Drizzle ORM** - ORM moderno e type-safe
 - **BetterAuth** - Sistema de autenticação
+- **Server Actions** no backend para chamadas diretas do frontend ao servidor (Next.js 15)
 
 ### Ferramentas de Desenvolvimento
 - **TypeScript** - Desenvolvimento type-safe
