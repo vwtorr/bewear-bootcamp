@@ -12,8 +12,9 @@ Um e-commerce moderno e responsivo para venda de roupas, tênis, mochilas e aces
 - 👤 **Gestão de perfil** com informações pessoais
 - 📦 **Sistema completo de pedidos** com status (pendente, pago, cancelado)
 - 📍 **Múltiplos endereços de entrega** por usuário
-- 💳 **Checkout integrado** com validação completa
+- 💳 **Checkout integrado com Stripe** para pagamentos seguros
 - 🚀 **Performance otimizada** com Next.js 15 e cache inteligente
+- 
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -30,6 +31,7 @@ Um e-commerce moderno e responsivo para venda de roupas, tênis, mochilas e aces
 - **Drizzle ORM** - ORM moderno e type-safe
 - **BetterAuth** - Sistema de autenticação
 - **Server Actions** no backend para chamadas diretas do frontend ao servidor (Next.js 15)
+- **Stripe** - Integração completa de pagamentos
 
 ### Ferramentas de Desenvolvimento
 - **TypeScript** - Desenvolvimento type-safe
