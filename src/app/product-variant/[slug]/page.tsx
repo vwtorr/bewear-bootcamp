@@ -116,12 +116,12 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
               </div>
             </div>
 
-            <VariantSelector
-              selectedVariantSlug={productVariant.slug}
-              variants={productVariant.product.variants}
-            />
+              <VariantSelector
+                selectedVariantSlug={productVariant.slug}
+                variants={productVariant.product.variants}
+              />
 
-            <ProductActions productVariantId={productVariant.id} />
+              <ProductActions productVariantId={productVariant.id} />
 
             <div className="border-t pt-6">
               <h3 className="mb-3 font-semibold">Descrição</h3>

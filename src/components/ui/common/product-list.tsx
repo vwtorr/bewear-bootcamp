@@ -136,7 +136,7 @@ const ProductList = ({ title, products, sectionClassName }: ProductListProps) =>
       <h3 className={`px-5 font-semibold ${sectionClassName}`}>{title}</h3>
       <div
         ref={scrollRef}
-        className={`flex w-full gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden select-none touch-pan-x ${
+        className={`flex w-full gap-4 overflow-x-auto group ${sectionClassName || ''} scrollbar-hide select-none touch-pan-x ${
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         onMouseDown={handleMouseDown}
