@@ -65,9 +65,9 @@ const CartItem = ({
   return (
     <div
       key={id}
-      className="flex items-center justify-between gap-4 border-b pb-2"
+      className="flex w-full items-start justify-between border-b pb-2"
     >
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 mr-4">
         <Image
           src={productVariantImageUrl}
           alt={`${productVariantName}`}
@@ -77,8 +77,23 @@ const CartItem = ({
         />
       </div>
 
-      <div className="flex flex-col gap-1">
-        <p className="text-sm font-semibold">{productName}</p>
+      <div className="flex flex-col gap-1 flex-grow min-w-0">
+        <div className="flex justify-between items-start w-full">
+          <p className="text-sm font-semibold max-w-[calc(100%-24px)] overflow-hidden text-ellipsis whitespace-nowrap">
+            {productName}
+          </p>
+          <div className="flex-shrink-0">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleDeleteClick}
+              className="w-6 h-6"
+            >
+              <TrashIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
         <p className="text-muted-foreground text-xs font-medium">
           {productVariantName}
         </p>
@@ -101,13 +116,7 @@ const CartItem = ({
             <PlusIcon />
           </Button>
         </div>
-      </div>
-      <div className="flex flex-col items-end justify-center gap-2">
-        <Button variant="outline" size="icon" onClick={handleDeleteClick}>
-          <TrashIcon />
-        </Button>
-
-        <p className="font-sans">
+        <p className="font-sans text-right mt-2 w-full">
           {formatCentsToBRL(productVariantPriceInCents * quantity)}
         </p>
       </div>
