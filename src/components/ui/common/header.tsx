@@ -77,18 +77,20 @@ export const Header = () => {
               <div className="mt-2">
                 <Separator />
               </div>
-              <div className="mt-2">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-sm font-normal"
-                  asChild
-                >
-                  <Link href="/my-orders">
-                    <PackageIcon size={16} className="mr-2" />
-                    Meus Pedidos
-                  </Link>
-                </Button>
-              </div>
+              {session?.user && (
+                <div className="mt-2">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start text-sm font-normal"
+                    asChild
+                  >
+                    <Link href="/my-orders">
+                      <PackageIcon size={16} className="mr-2" />
+                      Meus Pedidos
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </SheetContent>
         </Sheet>
