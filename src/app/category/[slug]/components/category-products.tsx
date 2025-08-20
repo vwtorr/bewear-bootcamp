@@ -1,5 +1,5 @@
 import ProductItem from "@/components/ui/common/product-item";
-import { InferResult } from "@/db";
+import { InferResult } from "drizzle-orm";
 
 interface CategoryProductsProps {
   products: InferResult<"productTable", { with: { variants: true } }>[];
