@@ -44,7 +44,7 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
     <>
       <Header />
 
-      <div className="min-h-screen">
+      
         {/* Mobile Layout */}
         <div className="flex flex-col space-y-6 lg:hidden">
           <div className="relative h-[300px] w-full overflow-hidden rounded-3xl">
@@ -76,11 +76,7 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
               </h3>
             </div>
 
-            <div className="flex flex-col space-y-4">
-              <Button className="rounded-full" size="lg">
-                Comprar agora
-              </Button>
-            </div>
+            <ProductActions productVariantId={productVariant.id} />
 
             <div>
               <p className="text-sm text-gray-600">
@@ -140,7 +136,7 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
         <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
           <ProductList title="Talvez você goste" products={likelyProducts} />
         </div>
-      </div>
+  
     </>
   );
 };

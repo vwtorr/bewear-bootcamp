@@ -25,11 +25,36 @@ const Cart = () => {
   const router = useRouter();
   const [isFinishingOrder, setIsFinishingOrder] = useState(false);
 
-  if (isLoading || isError) {
+  if (isLoading) {
     return (
       <Button variant="outline" size="icon">
         <ShoppingBasketIcon />
       </Button>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon">
+            <ShoppingBasketIcon />
+          </Button>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Seu Carrinho</SheetTitle>
+          </SheetHeader>
+          <div className="flex h-full flex-col items-center justify-center gap-2">
+            <p className="text-sm text-muted-foreground">
+              Você precisa estar logado para visualizar o carrinho.
+            </p>
+            <Button onClick={() => router.push("/auth")}>
+              Fazer Login
+            </Button>
+          </div>
+        </SheetContent>
+      </Sheet>
     );
   }
 
