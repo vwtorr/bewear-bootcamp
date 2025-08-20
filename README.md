@@ -1,4 +1,4 @@
-# 🛍️ E-commerce Platform
+# 🛍️ E-commerce BEWEAR
 
 Um e-commerce moderno e responsivo para venda de roupas, tênis, mochilas e acessórios, construído com as mais recentes tecnologias web.
 
