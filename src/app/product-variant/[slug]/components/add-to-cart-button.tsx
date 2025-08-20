@@ -33,11 +33,8 @@ const AddToCartButton = ({
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
     onError: (error) => {
-      if (error.message === "Você precisa estar logado para visualizar o carrinho.") {
-        toast.error(error.message);
-      } else {
-        toast.error("Erro ao adicionar produto ao carrinho");
-        console.error(error);
+      if (error.message) {
+        toast.error("Você precisa estar logado para adicionar um produto ao carrinho!");
       }
     },
   });
