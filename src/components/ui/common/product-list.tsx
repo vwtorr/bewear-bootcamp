@@ -8,9 +8,10 @@ interface ProductListProps {
   products: (typeof productTable.$inferSelect & {
     variants: (typeof productVariantTable.$inferSelect)[];
   })[];
+  sectionClassName?: string;
 }
 
-const ProductList = ({ title, products }: ProductListProps) => {
+const ProductList = ({ title, products, sectionClassName }: ProductListProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -132,7 +133,7 @@ const ProductList = ({ title, products }: ProductListProps) => {
 
   return (
     <div className="space-y-6">
-      <h3 className="px-5 font-semibold">{title}</h3>
+      <h3 className={`px-5 font-semibold ${sectionClassName}`}>{title}</h3>
       <div
         ref={scrollRef}
         className={`flex w-full gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden select-none touch-pan-x ${

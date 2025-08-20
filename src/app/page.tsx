@@ -44,14 +44,35 @@ const Home = async () => {
           <CategorySelector categories={categories} />
         </div>
 
-        <Image
-          src="/banner02.png"
-          alt="Leve uma vida com estilo"
-          height={0}
-          width={0}
-          sizes="100vm"
-          className="mx-auto h-auto w-full max-w-6xl rounded-3xl"
-        ></Image>
+        <div className="flex flex-col gap-6 lg:flex-row lg:justify-center lg:items-stretch">
+          <div className="flex flex-col gap-6 lg:w-1/2 h-full">
+            <Image
+              src="/tenis1.png"
+              alt="Leve uma vida com estilo"
+              height={0}
+              width={0}
+              sizes="100vm"
+              className="rounded-3xl object-cover h-1/2 w-full"
+            ></Image>
+
+            <Image
+              src="/tenis2.png"
+              alt="Leve uma vida com estilo"
+              height={0}
+              width={0}
+              sizes="100vm"
+              className="rounded-3xl object-cover h-1/2 w-full"
+            ></Image>
+          </div>
+
+          <Image
+            src="/banner02.png"
+            alt="Leve uma vida com estilo"
+            height={600}
+            width={1200}
+            className="rounded-3xl object-cover lg:w-1/2"
+          ></Image>
+        </div>
 
         <ProductList products={newlyCreatedProducts} title="Novidades" />
       </div>
